@@ -17,7 +17,7 @@ class ToDoItem extends Component {
             <div>
                 <div 
                     onClick={this.toggleDone}
-                    className={this.state.done ? 'doneTodo' : ''}
+                    className={this.state.done ? 'doneStyle doneTodo' : 'doneStyle'}
                 >
                     {text}
                 </div>

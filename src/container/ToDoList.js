@@ -5,10 +5,10 @@ import NewToDoForm from '../components/NewToDoForm'
 class ToDoList extends Component {
     static defaultProps = {
       tasks: [
-        {text: 'Record a ReactJS video', done: true},
-        {text: 'Go for w walk', done: false}
+        {text: 'do some shopping', done: true},
+        {text: 'watch favorite TV program', done: false}
       ],
-      title: 'MMy staff'
+      title: 'List todo'
     }
 
     state = {
@@ -28,21 +28,15 @@ class ToDoList extends Component {
   
     render() { 
       console.log(this.props)
-    //   const {tasks} = this.props
       const {Draft, tasks} = this.state
       return (
         <div>
-          <h1>{this.props.title}</h1>
-          {console.log(tasks)}
+            <h1>{this.props.title}</h1>
 
-          {/* {tasks.map(task => (
-            console.log(task.text, task.done)
-            ))} */}
-
-          {tasks.map(task => {
-            return <ToDoItem key={task.text} text={task.text} done={task.done} />
-          }  
-          )}
+            {tasks.map(task => {
+              return <ToDoItem key={task.text} text={task.text} done={task.done} />
+            }  
+            )}
 
             <NewToDoForm 
                 onChange={this.updateDraft} 

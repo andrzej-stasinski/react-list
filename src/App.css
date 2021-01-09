@@ -1,0 +1,7 @@
+body {
+    font-family: sans-serif;
+}
+.doneStyle {
+    margin-bottom: 5px;
+    cursor: pointer;
+}
