@@ -1,0 +1,32 @@
+const serverURL = 'http://localhost:3004/transactions'
+
+export const toDoItemApiUrl = id => id ? `${serverURL}/${id}` : `${serverURL}`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

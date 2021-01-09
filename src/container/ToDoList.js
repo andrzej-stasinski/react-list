@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import ToDoItem from '../components/ToDoItem'
 import NewToDoForm from '../components/NewToDoForm'
 import styled from 'styled-components'
+import * as toDoItemApi from '../helpers/toDoItemApi'
+import * as _ from 'ramda'
 
 const Container = styled.div`
   background: #333;
@@ -18,11 +20,6 @@ const Header = styled.h1`
 
 class ToDoList extends Component {
 
-    constructor(props) {
-      super(props)
-      console.log('constructor')
-    }
-
     getDate = () => {
       fetch('http://localhost:3004/transactions')
       .then(res => res.json())
@@ -32,13 +29,10 @@ class ToDoList extends Component {
       })
     }
 
-    componentDidMount() {
+    componentDidMount = async () => {
       console.log('componentDidMount')
-      this.getDate()
-    }
-
-    componentDidUpdate() {
-      console.log('componentDidUpdate')
+      const tasks = await toDoItemApi.getAll()
+      this.setState({tasks : tasks});
     }
     
     static defaultProps = {
@@ -50,19 +44,20 @@ class ToDoList extends Component {
       Draft: '',
       tasks: this.props.tasks,
     }
+
     updateDraft = (e) => {
       this.setState({ Draft: e.target.value });
     }
   
-    addToDo = () => {
-      this.setState({ 
-        tasks: [...this.state.tasks, {content: this.state.Draft, done: false}],
-        Draft: '',
-      });
-    }
-
-    removeAll = () => {
-      this.setState({ tasks: [] });
+    addToDo = async () => {
+      const {tasks, Draft} = this.state
+      console.log(Draft)
+      const task = await toDoItemApi.create({
+        content: Draft, 
+        create: new Date().toLocaleString()
+      })
+      console.log(task)
+      this.setState({tasks: _.append(task, tasks), Draft: ''})
     }
 
     addJSON = () => {
@@ -85,9 +80,32 @@ class ToDoList extends Component {
       })
       .catch(() => console.log('NOT Added'))
     }
+
+    findById = (id, arr) => {
+      const index = _.findIndex(_.propEq('id', id))(arr)
+      return {index, task: arr[index]}
+    }
+
+    destroyToDo = async (id) => {
+      const {tasks} = this.state
+      await toDoItemApi.destroy(id)
+      // const res = await toDoItemApi.destroy(id)
+      const {index} = this.findById(id, tasks)
+      this.setState({ tasks: _.remove(index, 1, tasks) });
+    }
+
+    toggleDone = async (id) => {
+      const {tasks} = this.state
+      const {index, task} = this.findById(id, tasks)
+      const {create, content} = task
+      const res = await toDoItemApi.update(id, {
+        done: !task.done, create, content
+      })
+      this.setState({tasks : _.update(index, res, tasks) });
+    }
   
     render() { 
-      console.log('render & props = ', this.props)
+      console.log('render & props = ', this.state)
       const {Draft, tasks} = this.state
       return (
         <Container>
@@ -97,14 +115,15 @@ class ToDoList extends Component {
               return  <ToDoItem 
                         key={task.id} 
                         id={task.id} 
+                        destroy={this.destroyToDo} 
                         text={task.content} 
-                        done={task.done} 
+                        done={task.done}
+                        toggleDone={this.toggleDone}
                       />
             }  
             )}
 
-            <button onClick={this.removeAll}>Remove tasks</button>
-            <button onClick={this.addJSON}>Add JSON</button>
+            <button onClick={this.addJSON}>Add ready data - outside INPUT</button>
 
             <NewToDoForm 
                 onChange={this.updateDraft} 

@@ -13,47 +13,20 @@ const Item = styled.div`
 `;
 
 class ToDoItem extends Component {
-    static defaultProps = {
-        done: false,
-    }
-    state = {
-        done: this.props.done,
-    }
-    componentWillUnmount() {
-        console.log('componentWillUnmount')
-        console.log('* Task - ' + this.props.text + ' unmounted')
-    }
 
-    toggleDone = () => {
-        console.log('id = ', this.props.id)
-        const dataObj = {
-                "content": "Added info",
-                "done": !this.state.done,
-                "updated": new Date().toLocaleString(),
-        }
-        fetch(`http://localhost:3004/transactions/${this.props.id}`, {
-            method: 'PUT',
-            headers: {
-              'Content-type': 'application/json',
-            },         
-            body: JSON.stringify(dataObj)
-          })
-          .then(res => {
-              if(res.ok) {
-                  console.log('Change done')
-                  this.setState({ done: !this.state.done });
-              }
-          })
-    }
+    toggleDone = () => this.props.toggleDone(this.props.id)
+
+    destroy = () => this.props.destroy(this.props.id)
+
     render() {
-        console.log(this.props)
-        const {text, id} = this.props
+        // console.log(this.props)
+        const {text, done} = this.props
         return (
             <Item 
-                onClick={this.toggleDone}
-                done={this.state.done}
+                done={done}
             >
-                {text}
+                <div onClick={this.toggleDone}>{text}</div>
+                <button onClick={this.destroy}>X</button>
             </Item>
         )
     }
