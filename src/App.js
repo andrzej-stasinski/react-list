@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import ToDoItem from './ToDoItem'
 
 class ToDoList extends Component {
   state = {
@@ -11,16 +11,26 @@ class ToDoList extends Component {
   }
 
   addToDo = () => {
-    this.setState({ tasks: this.state.tasks.concat(this.state.Draft), Draft: '' });
+    // this.setState({ tasks: this.state.tasks.concat(this.state.Draft), Draft: '' });
+    this.setState({ 
+      tasks: [...this.state.tasks, {text: this.state.Draft, done: false}],
+      Draft: '',
+    });
+  }
+
+  toggleDone = () => {
   }
 
   render() { 
-    const {tasks, Draft} = this.state
+    console.log(this.props)
+    const {tasks} = this.props
     return (
       <div>
         <h1>{this.props.title}</h1>
-        {tasks.map(task => <div key={task}><p>{task}</p></div>)}
-        <input type='text' onChange={this.updateDraft} value={Draft} />
+        {/* {this.state.tasks.map(task => <div>{task.text}</div>)} */}
+        {this.state.tasks.map(task => <ToDoItem text={task.text} done={task.done} />)}
+
+        <input type='text' onChange={this.updateDraft} value={this.state.Draft} />
         <button onClick={this.addToDo}>Add</button>
       </div>
     );
@@ -28,7 +38,10 @@ class ToDoList extends Component {
 }
 
 class App extends Component {
-  myTask = ['Record a ReactJS video', 'Go for w walk']
+  myTask = [
+      {text: 'Record a ReactJS video', done: true},
+      {text: 'Go for w walk', done: false}
+    ]
   render() {
     return(
       <>
