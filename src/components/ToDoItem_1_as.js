@@ -24,25 +24,21 @@ class ToDoItem extends Component {
         console.log('* Task - ' + this.props.text + ' unmounted')
     }
 
-    toggleDone = () => {
-        console.log('id = ', this.props.id)
+    toggleDone = (id) => {
+        this.setState({ done: !this.state.done });
+        console.log(id)
         const dataObj = {
-                "content": "Added info",
+                "content": "Setup backend",
                 "done": !this.state.done,
-                "updated": new Date().toLocaleString(),
+                "updated": "----",
+                "created": new Date().toLocaleString()
         }
-        fetch(`http://localhost:3004/transactions/${this.props.id}`, {
+        fetch(`http://localhost:3004/transactions/${id}`, {
             method: 'PUT',
             headers: {
               'Content-type': 'application/json',
             },         
             body: JSON.stringify(dataObj)
-          })
-          .then(res => {
-              if(res.ok) {
-                  console.log('Change done')
-                  this.setState({ done: !this.state.done });
-              }
           })
     }
     render() {
@@ -50,7 +46,7 @@ class ToDoItem extends Component {
         const {text, id} = this.props
         return (
             <Item 
-                onClick={this.toggleDone}
+                onClick={() => this.toggleDone(id)}
                 done={this.state.done}
             >
                 {text}

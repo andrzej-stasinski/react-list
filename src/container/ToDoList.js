@@ -17,11 +17,32 @@ const Header = styled.h1`
 `;
 
 class ToDoList extends Component {
+
+    constructor(props) {
+      super(props)
+      console.log('constructor')
+    }
+
+    getDate = () => {
+      fetch('http://localhost:3004/transactions')
+      .then(res => res.json())
+      .then(json => {
+        console.log(json)
+        this.setState({ tasks: json });
+      })
+    }
+
+    componentDidMount() {
+      console.log('componentDidMount')
+      this.getDate()
+    }
+
+    componentDidUpdate() {
+      console.log('componentDidUpdate')
+    }
+    
     static defaultProps = {
-      tasks: [
-        {text: 'do some shopping', done: true},
-        {text: 'watch favorite TV program', done: false}
-      ],
+      tasks: [],
       title: 'List todo'
     }
 
@@ -35,22 +56,55 @@ class ToDoList extends Component {
   
     addToDo = () => {
       this.setState({ 
-        tasks: [...this.state.tasks, {text: this.state.Draft, done: false}],
+        tasks: [...this.state.tasks, {content: this.state.Draft, done: false}],
         Draft: '',
       });
     }
+
+    removeAll = () => {
+      this.setState({ tasks: [] });
+    }
+
+    addJSON = () => {
+      const dataObj = {
+        "content": "Added info 2",
+        "done": true,
+        "updated": "empty",
+        "created": new Date().toLocaleString(),
+      }
+      fetch('http://localhost:3004/transactions', {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json',
+        },         
+        body: JSON.stringify(dataObj)
+      })
+      .then(() => {
+        console.log('Added')
+        this.getDate()
+      })
+      .catch(() => console.log('NOT Added'))
+    }
   
     render() { 
-      console.log(this.props)
+      console.log('render & props = ', this.props)
       const {Draft, tasks} = this.state
       return (
         <Container>
             <Header>{this.props.title}</Header>
 
             {tasks.map(task => {
-              return <ToDoItem key={task.text} text={task.text} done={task.done} />
+              return  <ToDoItem 
+                        key={task.id} 
+                        id={task.id} 
+                        text={task.content} 
+                        done={task.done} 
+                      />
             }  
             )}
+
+            <button onClick={this.removeAll}>Remove tasks</button>
+            <button onClick={this.addJSON}>Add JSON</button>
 
             <NewToDoForm 
                 onChange={this.updateDraft} 
