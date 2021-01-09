@@ -12,7 +12,6 @@ class ToDoItem extends Component {
         this.setState({ done: !this.state.done });
     }
     render() {
-        console.log(this.props)
         const {text} = this.props
         return (
             <div>
