@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /progress
+/restapi
 /.pnp
 .pnp.js
 

@@ -5,15 +5,6 @@ import styled from 'styled-components'
 import * as toDoItemApi from '../helpers/toDoItemApi'
 import * as _ from 'ramda'
 
-const Container = styled.div`
-  background: #333;
-  margin: 0 auto;
-  width: 80%;
-  max-width: 500px;
-  padding: 14px;
-  border-radius: 14px;
-  margin-top: 14px;
-`;
 const Header = styled.h1`
   color: yellow;
 `;
@@ -32,6 +23,7 @@ class ToDoList extends Component {
     componentDidMount = async () => {
       console.log('componentDidMount')
       const tasks = await toDoItemApi.getAll()
+      console.log(tasks)
       this.setState({tasks : tasks});
     }
     
@@ -105,10 +97,11 @@ class ToDoList extends Component {
     }
   
     render() { 
-      console.log('render & props = ', this.state)
+      console.log('state = ', this.state)
+      console.log('props = ', this.props)
       const {Draft, tasks} = this.state
       return (
-        <Container>
+        <div>
             <Header>{this.props.title}</Header>
 
             {tasks.map(task => {
@@ -130,7 +123,7 @@ class ToDoList extends Component {
                 draft={Draft} 
                 onSubmit={this.addToDo} 
             />
-        </Container>
+        </div>
       );
     }
   }

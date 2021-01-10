@@ -14,4 +14,5 @@
             "id": "1"
         }
     ]
+* operation using REST API - POST DELETE PUT & mark (done/not done)
 * app not finished ...

@@ -4,6 +4,10 @@ export const get = url =>
         fetch(url)
         .then(res => res.json())
         .then(data => resolve(data))
+        .catch(err => {
+            console.log(err.message)
+            console.log('Run server REST API to get data')
+        })
     })
 
 export const apiCall = (url, method, body, resolve, reject) => 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './ToDoItem.css'
 import styled from 'styled-components'
+import {Link} from 'react-router-dom'
 
 const Item = styled.div`
   background: #555;
@@ -12,6 +13,13 @@ const Item = styled.div`
   text-decoration: ${props => props.done ? 'line-through' : 'auto'};
 `;
 
+const LinkA = styled(Link)`
+    color: palevioletred;
+    text-decoration: none; 
+    margin-left: 10px;
+    &hover {color: #fff;}
+`
+
 class ToDoItem extends Component {
 
     toggleDone = () => this.props.toggleDone(this.props.id)
@@ -20,13 +28,14 @@ class ToDoItem extends Component {
 
     render() {
         // console.log(this.props)
-        const {text, done} = this.props
+        const {id, text, done} = this.props
         return (
             <Item 
                 done={done}
             >
                 <div onClick={this.toggleDone}>{text}</div>
                 <button onClick={this.destroy}>X</button>
+            <LinkA to={`/todo_items/${id}`} style={{textDecoration: 'none'}}>Edit</LinkA>
             </Item>
         )
     }
