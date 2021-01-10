@@ -15,4 +15,5 @@
         }
     ]
 * operation using REST API - POST DELETE PUT & mark (done/not done)
+* update task to REST API by formik
 * app not finished ...

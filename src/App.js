@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css'
 import ToDoList from './container/ToDoList'
 import ToDoEditForm from './components/ToDoEditForm'
+import Login from './container/Login'
 import NotFound from './components/NotFound'
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom'
 import styled from 'styled-components'
@@ -28,7 +29,8 @@ class App extends Component {
               <ToDoList />
             </Route> 
             <Route path="/todo_items/:itemId" component={ToDoEditForm} /> 
-            <Route component={NotFound} />             
+            <Route path='/login' component={Login} />            
+            <Route component={NotFound} /> 
           </Switch>
         
         </Container>
