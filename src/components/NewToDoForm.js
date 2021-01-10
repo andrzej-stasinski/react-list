@@ -31,12 +31,15 @@ const Container = styled.div`
 const NewToDoForm = (props) => {
     const {onChange, draft, onSubmit} = props
     return (
-        <Container>
+        <form onSubmit={onSubmit}>
+            <Container>
                 <TextInput 
                     type='text' onChange={onChange} value={draft} 
                 />
-                <Button onClick={onSubmit}>+</Button>            
-        </Container>
+                <Button>+</Button>                
+            </Container>
+        </form>
+            
     )
 }
 export default NewToDoForm

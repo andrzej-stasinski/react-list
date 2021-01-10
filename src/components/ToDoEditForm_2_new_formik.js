@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {get, update} from '../helpers/toDoItemApi'
 import {Formik} from 'formik'
-import {Link} from 'react-router-dom'
 
 export default class ToDoEditForm extends Component {
 
@@ -33,7 +32,9 @@ export default class ToDoEditForm extends Component {
                             console.log('submitted', values)
                             update(this.itemId(), {...values})
                         }}
-                        render={({
+                    >
+                    {
+                        ({
                             values,
                             errors,
                             touched,
@@ -50,10 +51,8 @@ export default class ToDoEditForm extends Component {
                                 />
                                 <button type='submit'>Update</button>
                             </form>
-                        )}
-                    />
-                    <br/>
-                    <Link to='/'>HomePage</Link>
+                        )
+                    }</Formik>
                 </div>
                 : <div>Loading...</div>
                 }

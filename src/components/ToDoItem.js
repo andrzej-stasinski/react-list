@@ -19,6 +19,9 @@ const LinkA = styled(Link)`
     margin-left: 10px;
     &hover {color: #fff;}
 `
+const Button = styled.button`
+    cursor: pointer;
+`
 
 class ToDoItem extends Component {
 
@@ -34,8 +37,10 @@ class ToDoItem extends Component {
                 done={done}
             >
                 <div onClick={this.toggleDone}>{text}</div>
-                <button onClick={this.destroy}>X</button>
-            <LinkA to={`/todo_items/${id}`} style={{textDecoration: 'none'}}>Edit</LinkA>
+                <Button onClick={this.destroy}>X</Button>
+                <LinkA to={`/todo_items/${id}`} 
+                    style={{textDecoration: 'none'}}
+                >Edit</LinkA>
             </Item>
         )
     }
