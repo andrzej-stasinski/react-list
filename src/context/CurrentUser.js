@@ -4,7 +4,7 @@ const CurrentUserContext = React.createContext()
 
 export class CurrentUserProvider extends Component {
     state = {
-        user: null
+        user: {name: 'Artur'}
     }
     login = () => {
         this.setState({ user: {user: 'Antonio'} });

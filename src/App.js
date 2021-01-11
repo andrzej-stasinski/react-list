@@ -6,7 +6,7 @@ import NotFound from './components/NotFound'
 import Navbar from './container/Navbar'
 import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom'
 import styled from 'styled-components'
-
+import {CurrentUserProvider} from './context/CurrentUser'
 
 const Container = styled.div`
   background: #333;
@@ -40,19 +40,21 @@ class App extends Component {
   render() {
     return(
       <Router>
-        <Container>
-          <Navbar />
-          <Switch>
-            <Route exact path="/">
-              <ToDoList />
-            </Route> 
-            {/* <Route path="/todo_items/:itemId" component={ToDoEditForm} />  */}
-            <PrivateRoute path="/todo_items/:itemId" component={ToDoEditForm} /> 
-            <Route path='/login' component={Login} />            
-            <Route component={NotFound} /> 
-          </Switch>
         
-        </Container>
+        <CurrentUserProvider>
+          <Container>
+            <Navbar />
+            <Switch>
+              <Route exact path="/">
+                <ToDoList />
+              </Route> 
+              {/* <Route path="/todo_items/:itemId" component={ToDoEditForm} />  */}
+              <PrivateRoute path="/todo_items/:itemId" component={ToDoEditForm} /> 
+              <Route path='/login' component={Login} />            
+              <Route component={NotFound} /> 
+            </Switch>
+          </Container>
+        </CurrentUserProvider>
 
       </Router>
     )
