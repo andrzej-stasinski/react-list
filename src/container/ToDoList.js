@@ -52,27 +52,6 @@ class ToDoList extends Component {
       this.setState({tasks: _.append(task, tasks), Draft: ''})
     }
 
-    // addJSON = () => {
-    //   const dataObj = {
-    //     "content": "Added info 2",
-    //     "done": true,
-    //     "updated": "empty",
-    //     "created": new Date().toLocaleString(),
-    //   }
-    //   fetch('http://localhost:3004/transactions', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-type': 'application/json',
-    //     },         
-    //     body: JSON.stringify(dataObj)
-    //   })
-    //   .then(() => {
-    //     console.log('Added')
-    //     this.getDate()
-    //   })
-    //   .catch(() => console.log('NOT Added'))
-    // }
-
     findById = (id, arr) => {
       const index = _.findIndex(_.propEq('id', id))(arr)
       return {index, task: arr[index]}
@@ -81,7 +60,6 @@ class ToDoList extends Component {
     destroyToDo = async (id) => {
       const {tasks} = this.state
       await toDoItemApi.destroy(id)
-      // const res = await toDoItemApi.destroy(id)
       const {index} = this.findById(id, tasks)
       this.setState({ tasks: _.remove(index, 1, tasks) });
     }
@@ -97,8 +75,8 @@ class ToDoList extends Component {
     }
   
     render() { 
-      console.log('state = ', this.state)
-      console.log('props = ', this.props)
+      // console.log('state = ', this.state)
+      // console.log('props = ', this.props)
       const {Draft, tasks} = this.state
       return (
         <div>
@@ -115,8 +93,6 @@ class ToDoList extends Component {
                       />
             }  
             )}
-
-            {/* <button onClick={this.addJSON}>Add ready data - outside INPUT</button> */}
 
             <NewToDoForm 
                 onChange={this.updateDraft} 

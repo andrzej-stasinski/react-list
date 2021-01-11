@@ -6,7 +6,7 @@ import NotFound from './components/NotFound'
 import Navbar from './container/Navbar'
 import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom'
 import styled from 'styled-components'
-import {CurrentUserProvider} from './context/CurrentUser'
+import {CurrentUserProvider, CurrentUserConsumer} from './context/CurrentUser'
 
 const Container = styled.div`
   background: #333;
@@ -22,15 +22,24 @@ const PrivateRoute = ({ component: Component, ...rest}) => (
   <Route 
     {...rest}
     render={props =>
-      sessionStorage.getItem('currentUser') ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to={{
-          pathname: '/login',
-          status: { from: props.location }
-        }}
-        />
-      )
+      <CurrentUserConsumer>
+        {
+        ({user}) => (      
+          user 
+          ? (
+            <Component {...props} />
+          ) 
+          : (
+            <Redirect 
+              to={{
+              pathname: '/login',
+              status: { from: props.location }
+            }}
+            />
+          ))
+        }
+      </CurrentUserConsumer>
+
     }
   />
 )
