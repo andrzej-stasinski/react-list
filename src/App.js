@@ -52,7 +52,7 @@ class App extends Component {
         
         <CurrentUserProvider>
           <Container>
-            <Navbar />
+            {/* <Navbar /> */}
             <Switch>
               <Route exact path="/">
                 <ToDoList />

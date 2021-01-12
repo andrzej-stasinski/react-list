@@ -33,14 +33,14 @@ class ToDoItem extends Component {
         // console.log(this.props)
         const {id, text, done} = this.props
         return (
-            <Item 
-                done={done}
-            >
+            <Item done={done}>
                 <div onClick={this.toggleDone}>{text}</div>
                 <Button onClick={this.destroy}>X</Button>
-                <LinkA to={`/todo_items/${id}`} 
+                <LinkA 
+                    to={`/todo_items/${id}`} 
                     style={{textDecoration: 'none'}}
-                >Edit</LinkA>
+                >
+                Edit</LinkA>
             </Item>
         )
     }
